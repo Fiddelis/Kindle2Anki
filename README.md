@@ -1,2 +1,2 @@
-# Vocab2Anki
-User-friendly tool that converts vocabulary lists into Anki flashcard decks
+# Kindle2Anki
+User-friendly tool that converts kindle vocabulary lists into Anki flashcard decks
