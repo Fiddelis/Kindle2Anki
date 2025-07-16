@@ -48,6 +48,14 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const title = row.getValue("title") as string;
+      return (
+        <span title={title} className="block truncate w-100">
+          {title}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "authors",
@@ -80,7 +88,10 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="text-left">{row.original.lang}</div>,
+    cell: ({ row }) => {
+      const lang = row.getValue("lang") as string;
+      return <span className="block">{lang}</span>;
+    },
   },
   {
     accessorKey: "id",

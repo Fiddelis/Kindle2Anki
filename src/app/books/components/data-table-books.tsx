@@ -28,11 +28,13 @@ import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onSelectionChange?: (selectedRows: string[]) => void;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTableBooks<TData, TValue>({
   columns,
   data,
+  onSelectionChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -56,11 +58,12 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  function handleShowSelectedTitles() {
+  function handleSelectedTitles() {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
-    const id = selectedRows.map((row) => row.getValue("id"));
-
-    console.log(id);
+    const id = selectedRows.map((row) => String(row.getValue("id")));
+    if (onSelectionChange) {
+      onSelectionChange(id);
+    }
   }
 
   return (
@@ -166,10 +169,7 @@ export function DataTable<TData, TValue>({
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <Button
-          className="cursor-pointer my-4"
-          onClick={handleShowSelectedTitles}
-        >
+        <Button className="cursor-pointer my-4" onClick={handleSelectedTitles}>
           Confirm
         </Button>
       </div>
