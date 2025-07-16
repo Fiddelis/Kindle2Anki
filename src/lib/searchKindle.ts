@@ -27,21 +27,29 @@ import type { Database } from "sql.js";
 
 export function searchTableClient<T>(
   db: Database,
+  fields: string,
   table: string,
-  filters: Partial<T>
+  filters: Partial<Record<keyof T, string | number | Array<string | number>>>
 ): T[] {
   const clauses: string[] = [];
   const params: (string | number)[] = [];
 
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value != null) {
+  Object.entries(filters).forEach(([key, raw]) => {
+    if (raw == null) return;
+
+    if (Array.isArray(raw)) {
+      // "key IN (?, ?, ?)"
+      const placeholders = raw.map(() => "?").join(", ");
+      clauses.push(`"${key}" IN (${placeholders})`);
+      params.push(...raw);
+    } else {
       clauses.push(`"${key}" = ?`);
-      params.push(value as string | number);
+      params.push(raw as string | number);
     }
   });
 
   const where = clauses.length ? "WHERE " + clauses.join(" AND ") : "";
-  const sql = `SELECT * FROM ${table} ${where}`;
+  const sql = `SELECT ${fields} FROM ${table} ${where}`;
   const stmt = db.prepare(sql);
 
   // aqui só bind e itera
