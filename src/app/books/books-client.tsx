@@ -1,14 +1,16 @@
 "use client";
 
-import { openDbFromBlob, searchTableClient } from "@/lib/searchKindle";
+import { openDbFromBlob, searchTableClient } from "@/lib/search-kindle";
 import { KindleBookInfo, LookupWithWord } from "@/lib/types";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { DataTableBooks } from "./components/data-table-books";
 import { columnsBooks } from "./components/columns-books";
 import { columnsLookupWithWord } from "./components/columns-words";
 import { DataTableWords } from "./components/data-table-words";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { translateTextsFree } from "@/server/translate-server";
 
 export default function BooksClient() {
   const params = useSearchParams();
@@ -50,6 +52,16 @@ export default function BooksClient() {
     });
   }
 
+  function handleTranslate() {
+    if (!lookupsWithWords || lookupsWithWords.length === 0) return;
+
+    translateTextsFree(lookupsWithWords, "pt").then(
+      (translated: SetStateAction<LookupWithWord[] | null>) => {
+        setLookupsWithWords(translated);
+      }
+    );
+  }
+
   if (books === null) {
     return <p>Carregando livros…</p>;
   }
@@ -75,6 +87,9 @@ export default function BooksClient() {
           columns={columnsLookupWithWord}
           data={lookupsWithWords ?? []}
         />
+        <div>
+          <Button onClick={handleTranslate}>Translate</Button>
+        </div>
       </div>
     </>
   );
