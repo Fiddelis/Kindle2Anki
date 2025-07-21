@@ -1,3 +1,4 @@
+"use server";
 import { freeTranslate } from "@/lib/free-translate";
 import type { LookupWithWord } from "@/lib/types";
 

@@ -1,4 +1,4 @@
-// lib/freeTranslate.ts
+"use server";
 import fetch from "node-fetch";
 
 const ENDPOINT = "https://translate-pa.googleapis.com/v1/translate";
