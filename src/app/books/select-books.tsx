@@ -10,9 +10,9 @@ import { columnsLookupWithWord } from "./components/columns-words";
 import { DataTableWords } from "./components/data-table-words";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { translateTextsFree } from "@/server/translate-server";
+import { translate } from "@/server/translate";
 
-export default function BooksClient() {
+export default function SelectBooks() {
   const params = useSearchParams();
   const blobUrl = params.get("fileUrl")!;
 
@@ -21,7 +21,7 @@ export default function BooksClient() {
     LookupWithWord[] | null
   >(null);
 
-  // Busca os livros
+  // Search for books
   useEffect(() => {
     if (!blobUrl) return;
     openDbFromBlob(blobUrl).then((db) => {
@@ -30,7 +30,7 @@ export default function BooksClient() {
     });
   }, [blobUrl]);
 
-  // Busca lookups quando selecionar livros
+  // Search for lookups when selecting books
   function handleSelectionChange(ids: string[]) {
     if (ids.length === 0) return;
     openDbFromBlob(blobUrl).then((db) => {
@@ -55,7 +55,7 @@ export default function BooksClient() {
   function handleTranslate() {
     if (!lookupsWithWords || lookupsWithWords.length === 0) return;
 
-    translateTextsFree(lookupsWithWords, "pt").then(
+    translate(lookupsWithWords, "pt").then(
       (translated: SetStateAction<LookupWithWord[] | null>) => {
         setLookupsWithWords(translated);
       }
@@ -71,7 +71,7 @@ export default function BooksClient() {
 
   return (
     <>
-      <div className="container mx-auto px-10">
+      <div className="container mx-auto">
         <DataTableBooks
           columns={columnsBooks}
           data={books}
@@ -82,7 +82,7 @@ export default function BooksClient() {
       <Separator className="my-10" />
 
       <h2 className="text-4xl text-center my-4">Words in selected books</h2>
-      <div className="container mx-auto px-10">
+      <div className="container mx-auto">
         <DataTableWords
           columns={columnsLookupWithWord}
           data={lookupsWithWords ?? []}
