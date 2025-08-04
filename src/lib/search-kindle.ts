@@ -6,17 +6,15 @@ let SQL: SqlJsStatic | null = null;
 
 export async function getSqlJs(): Promise<SqlJsStatic> {
   if (!SQL) {
-    // importa só no client
     const initSqlJs = (await import("sql.js")).default;
     SQL = await initSqlJs({
-      locateFile: (file) => `/${file}`, // aponta para /sql-wasm.wasm
+      locateFile: (file) => `/${file}`,
     });
   }
   return SQL;
 }
 
 export async function openDbFromBlob(blobUrl: string): Promise<SqlJsDatabase> {
-  // busca o arquivo .db selecionado pelo usuário
   const res = await fetch(blobUrl);
   const buffer = await res.arrayBuffer();
   const SQL = await getSqlJs();
@@ -38,7 +36,6 @@ export function searchTableClient<T>(
     if (raw == null) return;
 
     if (Array.isArray(raw)) {
-      // "key IN (?, ?, ?)"
       const placeholders = raw.map(() => "?").join(", ");
       clauses.push(`"${key}" IN (${placeholders})`);
       params.push(...raw);
@@ -52,7 +49,6 @@ export function searchTableClient<T>(
   const sql = `SELECT ${fields} FROM ${table} ${where}`;
   const stmt = db.prepare(sql);
 
-  // aqui só bind e itera
   stmt.bind(params);
   const results: T[] = [];
   while (stmt.step()) {
