@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import BooksClient from "./books-client";
+import SelectBooks from "./select-books";
+import AnkiCards from "./anki-cards";
 
 export default function BooksPage() {
   return (
@@ -10,7 +11,10 @@ export default function BooksPage() {
           <p className="text-center">Carregando interface de livros…</p>
         }
       >
-        <BooksClient />
+        <div className="px-20">
+          <SelectBooks />
+          <AnkiCards />
+        </div>
       </Suspense>
     </div>
   );
