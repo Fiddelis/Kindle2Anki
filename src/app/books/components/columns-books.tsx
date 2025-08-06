@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { KindleBookInfo } from "@/lib/types";
+import { KindleBookInfo } from "@/types/kindle";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";

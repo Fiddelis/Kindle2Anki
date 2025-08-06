@@ -1,6 +1,6 @@
 "use server";
 import fetch from "node-fetch";
-import type { LookupWithWord } from "@/lib/types";
+import type { LookupWithWord } from "@/types/kindle";
 
 async function freeTranslate({
   text,

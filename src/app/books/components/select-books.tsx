@@ -1,16 +1,16 @@
 "use client";
 
-import { openDbFromBlob, searchTableClient } from "@/lib/search-kindle";
-import { KindleBookInfo, LookupWithWord } from "@/lib/types";
+import { openDbFromBlob, searchTableClient } from "@/lib/kindle";
+import { KindleBookInfo, LookupWithWord } from "@/types/kindle";
 import { useSearchParams } from "next/navigation";
 import { SetStateAction, useEffect, useState } from "react";
-import { DataTableBooks } from "./components/data-table-books";
-import { columnsBooks } from "./components/columns-books";
-import { columnsLookupWithWord } from "./components/columns-words";
-import { DataTableWords } from "./components/data-table-words";
+import { DataTableBooks } from "./data-table-books";
+import { columnsBooks } from "./columns-books";
+import { columnsLookupWithWord } from "./columns-words";
+import { DataTableWords } from "./data-table-words";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { translate } from "@/server/translate";
+import { translate } from "@/lib/translate";
 
 export default function SelectBooks() {
   const params = useSearchParams();

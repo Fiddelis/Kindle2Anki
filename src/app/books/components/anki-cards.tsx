@@ -1,6 +1,6 @@
 "use client";
 
-import { FlippableCard } from "./components/flippable-cards";
+import { FlippableCard } from "./flippable-cards";
 
 export default function AnkiCards(props: { className?: string }) {
   console.log("FlippableCard:", FlippableCard);
