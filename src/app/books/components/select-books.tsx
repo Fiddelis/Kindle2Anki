@@ -37,7 +37,7 @@ export default function SelectBooks() {
       const rows = searchTableClient<LookupWithWord>(
         db,
         `l.id AS lookup_id,
-         l.book_key,
+         l.book_key AS book_id,
          l.usage,
          l.timestamp AS lookup_timestamp,
          w.id AS word_id,
@@ -46,7 +46,7 @@ export default function SelectBooks() {
          w.lang AS word_lang,
          w.timestamp AS word_timestamp`,
         "LOOKUPS AS l JOIN WORDS AS w ON l.word_key = w.id",
-        { book_key: ids }
+        { book_id: ids }
       );
       setLookupsWithWords(rows);
     });
@@ -71,6 +71,8 @@ export default function SelectBooks() {
 
   return (
     <>
+      <h1 className="text-4xl text-center my-4">Select the books</h1>
+
       <div className="container mx-auto">
         <DataTableBooks
           columns={columnsBooks}
