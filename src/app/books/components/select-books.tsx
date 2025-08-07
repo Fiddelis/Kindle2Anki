@@ -71,7 +71,7 @@ export default function SelectBooks() {
     <>
       <h1 className="text-4xl text-center my-4">Select the books</h1>
 
-      <div className="container mx-auto">
+      <div>
         <DataTableBooks
           columns={columnsBooks}
           data={books}
@@ -82,11 +82,12 @@ export default function SelectBooks() {
       <Separator className="my-10" />
 
       <h2 className="text-4xl text-center my-4">Words in selected books</h2>
-      <div className="container mx-auto">
-        <DataTableWords columns={columnsLookupWithWord} data={lookupsWithWords ?? []} />
-        <div>
-          <Button onClick={handleTranslate}>Translate</Button>
-        </div>
+      <div>
+        <DataTableWords
+          columns={columnsLookupWithWord}
+          data={lookupsWithWords ?? []}
+          onTranslateChange={handleTranslate}
+        />
       </div>
     </>
   );

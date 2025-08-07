@@ -151,7 +151,7 @@ export function DataTableBooks<TData, TValue>({
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <Button className="cursor-pointer my-4" onClick={handleSelectedTitles}>
+        <Button className="cursor-pointer mt-4 w-30" onClick={handleSelectedTitles}>
           Confirm
         </Button>
       </div>

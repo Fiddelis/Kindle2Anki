@@ -4,13 +4,13 @@ import AnkiCards from './components/anki-cards';
 
 export default function BooksPage() {
   return (
-    <div>
+    <div className="flex justify-center ">
       <Suspense>
-        <div className="space-y-10 px-20">
+        <div className="space-y-10 w-full px-10 lg:px-20 xl:px-60">
           <section>
             <SelectBooks />
           </section>
-          <section>
+          <section className="h-[300px]">
             <AnkiCards />
           </section>
         </div>

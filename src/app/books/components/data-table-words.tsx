@@ -26,9 +26,14 @@ import { useState } from 'react';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onTranslateChange: () => void;
 }
 
-export function DataTableWords<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTableWords<TData, TValue>({
+  columns,
+  data,
+  onTranslateChange,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -119,6 +124,11 @@ export function DataTableWords<TData, TValue>({ columns, data }: DataTableProps<
       <div className="flex">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredRowModel().rows.length} word(s) to translate.
+        </div>
+        <div className="flex mt-4">
+          <Button onClick={onTranslateChange} className="cursor-pointer w-30">
+            Translate
+          </Button>
         </div>
       </div>
     </div>
