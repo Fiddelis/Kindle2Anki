@@ -26,14 +26,9 @@ import { useState } from 'react';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onSelectionChange?: (selectedRows: string[]) => void;
 }
 
-export function DataTableWords<TData, TValue>({
-  columns,
-  data,
-  onSelectionChange,
-}: DataTableProps<TData, TValue>) {
+export function DataTableWords<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -55,14 +50,6 @@ export function DataTableWords<TData, TValue>({
       rowSelection,
     },
   });
-
-  function handleSelectedTitles() {
-    const selectedRows = table.getFilteredSelectedRowModel().rows;
-    const id = selectedRows.map((row) => String(row.getValue('id')));
-    if (onSelectionChange) {
-      onSelectionChange(id);
-    }
-  }
 
   return (
     <div className="pb-20">
