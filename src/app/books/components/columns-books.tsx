@@ -1,19 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { KindleBookInfo } from "@/types/kindle";
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from '@/components/ui/button';
+import { KindleBookInfo } from '@/types/kindle';
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
   {
-    id: "select",
+    id: 'select',
     header: ({ table }) => (
       <div className="container flex items-center">
         <Checkbox
           className="cursor-pointer"
           checked={
             table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -35,13 +35,13 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: 'title',
     header: ({ column }) => {
       return (
         <Button
           className="container flex justify-between"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,7 +49,7 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
       );
     },
     cell: ({ row }) => {
-      const title = row.getValue("title") as string;
+      const title = row.getValue('title') as string;
       return (
         <span title={title} className="block truncate w-100">
           {title}
@@ -58,14 +58,14 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
     },
   },
   {
-    accessorKey: "authors",
+    accessorKey: 'authors',
 
     header: ({ column }) => {
       return (
         <Button
           className="container flex justify-between"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Authors
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -75,13 +75,13 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
     cell: ({ row }) => <div className="text-left">{row.original.authors}</div>,
   },
   {
-    accessorKey: "lang",
+    accessorKey: 'lang',
     header: ({ column }) => {
       return (
         <Button
           className="container flex justify-between"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Language
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -89,18 +89,18 @@ export const columnsBooks: ColumnDef<KindleBookInfo>[] = [
       );
     },
     cell: ({ row }) => {
-      const lang = row.getValue("lang") as string;
+      const lang = row.getValue('lang') as string;
       return <span className="block">{lang}</span>;
     },
   },
   {
-    accessorKey: "id",
+    accessorKey: 'id',
     header: ({ column }) => {
       return (
         <Button
           className="container flex justify-between"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           ID
           <ArrowUpDown className="ml-2 h-4 w-4" />

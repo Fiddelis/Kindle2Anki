@@ -1,31 +1,29 @@
-"use client";
+'use client';
 
-import { openDbFromBlob, searchTableClient } from "@/lib/kindle";
-import { KindleBookInfo, LookupWithWord } from "@/types/kindle";
-import { useSearchParams } from "next/navigation";
-import { SetStateAction, useEffect, useState } from "react";
-import { DataTableBooks } from "./data-table-books";
-import { columnsBooks } from "./columns-books";
-import { columnsLookupWithWord } from "./columns-words";
-import { DataTableWords } from "./data-table-words";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { translate } from "@/lib/translate";
+import { openDbFromBlob, searchTableClient } from '@/lib/kindle';
+import { KindleBookInfo, LookupWithWord } from '@/types/kindle';
+import { useSearchParams } from 'next/navigation';
+import { SetStateAction, useEffect, useState } from 'react';
+import { DataTableBooks } from './data-table-books';
+import { columnsBooks } from './columns-books';
+import { columnsLookupWithWord } from './columns-words';
+import { DataTableWords } from './data-table-words';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { translate } from '@/lib/translate';
 
 export default function SelectBooks() {
   const params = useSearchParams();
-  const blobUrl = params.get("fileUrl")!;
+  const blobUrl = params.get('fileUrl')!;
 
   const [books, setBooks] = useState<KindleBookInfo[] | null>(null);
-  const [lookupsWithWords, setLookupsWithWords] = useState<
-    LookupWithWord[] | null
-  >(null);
+  const [lookupsWithWords, setLookupsWithWords] = useState<LookupWithWord[] | null>(null);
 
   // Search for books
   useEffect(() => {
     if (!blobUrl) return;
     openDbFromBlob(blobUrl).then((db) => {
-      const rows = searchTableClient<KindleBookInfo>(db, "*", "BOOK_INFO", {});
+      const rows = searchTableClient<KindleBookInfo>(db, '*', 'BOOK_INFO', {});
       setBooks(rows);
     });
   }, [blobUrl]);
@@ -45,8 +43,8 @@ export default function SelectBooks() {
          w.stem,
          w.lang AS word_lang,
          w.timestamp AS word_timestamp`,
-        "LOOKUPS AS l JOIN WORDS AS w ON l.word_key = w.id",
-        { book_id: ids }
+        'LOOKUPS AS l JOIN WORDS AS w ON l.word_key = w.id',
+        { book_id: ids },
       );
       setLookupsWithWords(rows);
     });
@@ -55,10 +53,10 @@ export default function SelectBooks() {
   function handleTranslate() {
     if (!lookupsWithWords || lookupsWithWords.length === 0) return;
 
-    translate(lookupsWithWords, "pt").then(
+    translate(lookupsWithWords, 'pt').then(
       (translated: SetStateAction<LookupWithWord[] | null>) => {
         setLookupsWithWords(translated);
-      }
+      },
     );
   }
 
@@ -85,10 +83,7 @@ export default function SelectBooks() {
 
       <h2 className="text-4xl text-center my-4">Words in selected books</h2>
       <div className="container mx-auto">
-        <DataTableWords
-          columns={columnsLookupWithWord}
-          data={lookupsWithWords ?? []}
-        />
+        <DataTableWords columns={columnsLookupWithWord} data={lookupsWithWords ?? []} />
         <div>
           <Button onClick={handleTranslate}>Translate</Button>
         </div>

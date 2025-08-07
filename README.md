@@ -4,18 +4,18 @@ Kindle2Anki is a **web application** built with Next.js and React that lets you 
 
 ## Features
 
-* 📁 **File Upload**: Drag-and-drop or browse to select your `vocab.db` from Kindle.
-* 🌐 **Translation**: On-the-fly translations of words and sentences.
-* 📊 **Interactive Tables**: Sort, filter, and select vocabulary entries in a responsive data table.
-* 🎴 **Anki Export**: Generate a downloadable CSV that can be imported directly into Anki.
+- 📁 **File Upload**: Drag-and-drop or browse to select your `vocab.db` from Kindle.
+- 🌐 **Translation**: On-the-fly translations of words and sentences.
+- 📊 **Interactive Tables**: Sort, filter, and select vocabulary entries in a responsive data table.
+- 🎴 **Anki Export**: Generate a downloadable CSV that can be imported directly into Anki.
 
 ## Tech Stack
 
-* 🚀 **Next.js** (App Router)
-* ⚛️ **React** with Server & Client Components
-* 💙 **TypeScript** for type safety
-* 🗄️ **SQLite** (via `sql.js`) to read `vocab.db` in the browser
-* 🎨 **Tailwind CSS** for styling
+- 🚀 **Next.js** (App Router)
+- ⚛️ **React** with Server & Client Components
+- 💙 **TypeScript** for type safety
+- 🗄️ **SQLite** (via `sql.js`) to read `vocab.db` in the browser
+- 🎨 **Tailwind CSS** for styling
 
 ## License
 

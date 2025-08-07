@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useRef, useState, DragEvent } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { useRef, useState, DragEvent } from 'react';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { useRouter } from 'next/navigation';
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -25,7 +25,7 @@ export default function UploadPage() {
     e.stopPropagation();
 
     const f = e.dataTransfer.files[0];
-    if (f && f.name.endsWith(".db")) {
+    if (f && f.name.endsWith('.db')) {
       setFile(f);
     }
   }
@@ -48,20 +48,9 @@ export default function UploadPage() {
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen gap-5">
-        <Image
-          src="/logo.png"
-          width={150}
-          height={150}
-          alt="Picture of the author"
-        />
+        <Image src="/logo.png" width={150} height={150} alt="Picture of the author" />
 
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".db"
-          className="hidden"
-          onChange={handleChange}
-        />
+        <input ref={inputRef} type="file" accept=".db" className="hidden" onChange={handleChange} />
 
         <Card
           onClick={handleClick}
@@ -74,18 +63,12 @@ export default function UploadPage() {
           </CardContent>
           <CardFooter>
             <Button variant="outline" className="cursor-pointer">
-              {file
-                ? file.name + " (" + file.size / 1000 + " KB)"
-                : "Select file"}
+              {file ? file.name + ' (' + file.size / 1000 + ' KB)' : 'Select file'}
             </Button>
           </CardFooter>
         </Card>
 
-        <Button
-          className="cursor-pointer"
-          disabled={!file}
-          onClick={handleConfirm}
-        >
+        <Button className="cursor-pointer" disabled={!file} onClick={handleConfirm}>
           Confirm
         </Button>
       </div>

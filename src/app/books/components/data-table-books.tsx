@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   ColumnDef,
@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
 import {
   Table,
@@ -19,11 +19,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -60,7 +60,7 @@ export function DataTableBooks<TData, TValue>({
 
   function handleSelectedTitles() {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
-    const id = selectedRows.map((row) => String(row.getValue("id")));
+    const id = selectedRows.map((row) => String(row.getValue('id')));
     if (onSelectionChange) {
       onSelectionChange(id);
     }
@@ -72,21 +72,15 @@ export function DataTableBooks<TData, TValue>({
         <div className="flex items-center py-4 gap-4">
           <Input
             placeholder="Filter titles..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("title")?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('title')?.setFilterValue(event.target.value)}
             className="max-w-sm"
           />
 
           <Input
             placeholder="Filter authors..."
-            value={
-              (table.getColumn("authors")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn("authors")?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn('authors')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('authors')?.setFilterValue(event.target.value)}
             className="w-sm"
           />
         </div>
@@ -121,10 +115,7 @@ export function DataTableBooks<TData, TValue>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -134,29 +125,20 @@ export function DataTableBooks<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
                       className="overflow-hidden whitespace-nowrap text-ellipsis"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -166,7 +148,7 @@ export function DataTableBooks<TData, TValue>({
       </div>
       <div className="flex">
         <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <Button className="cursor-pointer my-4" onClick={handleSelectedTitles}>

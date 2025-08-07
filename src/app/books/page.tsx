@@ -1,6 +1,6 @@
-import { Suspense } from "react";
-import SelectBooks from "./components/select-books";
-import AnkiCards from "./components/anki-cards";
+import { Suspense } from 'react';
+import SelectBooks from './components/select-books';
+import AnkiCards from './components/anki-cards';
 
 export default function BooksPage() {
   return (

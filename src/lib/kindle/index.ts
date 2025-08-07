@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import type { SqlJsStatic, Database as SqlJsDatabase } from "sql.js";
+import type { SqlJsStatic, Database as SqlJsDatabase } from 'sql.js';
 
 let SQL: SqlJsStatic | null = null;
 
 export async function getSqlJs(): Promise<SqlJsStatic> {
   if (!SQL) {
-    const initSqlJs = (await import("sql.js")).default;
+    const initSqlJs = (await import('sql.js')).default;
     SQL = await initSqlJs({
       locateFile: (file) => `/${file}`,
     });
@@ -21,13 +21,13 @@ export async function openDbFromBlob(blobUrl: string): Promise<SqlJsDatabase> {
   return new SQL.Database(new Uint8Array(buffer));
 }
 
-import type { Database } from "sql.js";
+import type { Database } from 'sql.js';
 
 export function searchTableClient<T>(
   db: Database,
   fields: string,
   table: string,
-  filters: Partial<Record<keyof T, string | number | Array<string | number>>>
+  filters: Partial<Record<keyof T, string | number | Array<string | number>>>,
 ): T[] {
   const clauses: string[] = [];
   const params: (string | number)[] = [];
@@ -36,7 +36,7 @@ export function searchTableClient<T>(
     if (raw == null) return;
 
     if (Array.isArray(raw)) {
-      const placeholders = raw.map(() => "?").join(", ");
+      const placeholders = raw.map(() => '?').join(', ');
       clauses.push(`"${key}" IN (${placeholders})`);
       params.push(...raw);
     } else {
@@ -45,7 +45,7 @@ export function searchTableClient<T>(
     }
   });
 
-  const where = clauses.length ? "WHERE " + clauses.join(" AND ") : "";
+  const where = clauses.length ? 'WHERE ' + clauses.join(' AND ') : '';
   const sql = `SELECT ${fields} FROM ${table} ${where}`;
   const stmt = db.prepare(sql);
 

@@ -1,6 +1,6 @@
-"use server";
-import fetch from "node-fetch";
-import type { LookupWithWord } from "@/types/kindle";
+'use server';
+import fetch from 'node-fetch';
+import type { LookupWithWord } from '@/types/kindle';
 
 async function freeTranslate({
   text,
@@ -12,28 +12,25 @@ async function freeTranslate({
   targetLanguage: string;
 }): Promise<string> {
   const params = new URLSearchParams({
-    "params.client": "gtx",
-    "query.source_language": sourceLanguage,
-    "query.target_language": targetLanguage,
-    "query.display_language": "en-US",
-    data_types: "TRANSLATION",
-    key: process.env.FREE_TRANSLATE_API_KEY ?? "",
-    "query.text": text,
+    'params.client': 'gtx',
+    'query.source_language': sourceLanguage,
+    'query.target_language': targetLanguage,
+    'query.display_language': 'en-US',
+    data_types: 'TRANSLATION',
+    key: process.env.FREE_TRANSLATE_API_KEY ?? '',
+    'query.text': text,
   });
 
-  const res = await fetch(
-    `https://translate-pa.googleapis.com/v1/translate?${params}`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "User-Agent": "Mozilla/5.0",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
+  const res = await fetch(`https://translate-pa.googleapis.com/v1/translate?${params}`, {
+    method: 'GET',
+    headers: {
+      Accept: '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'User-Agent': 'Mozilla/5.0',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
 
   if (!res.ok) {
     throw new Error(`Free translate failed: ${res.status} ${res.statusText}`);
@@ -45,7 +42,7 @@ async function freeTranslate({
 
 export async function translate(
   lookupWithWord: LookupWithWord[],
-  targetLanguage: string
+  targetLanguage: string,
 ): Promise<LookupWithWord[]> {
   const items = lookupWithWord.flatMap((lww) => [
     { text: lww.word, lang: lww.word_lang },
@@ -63,8 +60,8 @@ export async function translate(
           text: item.text,
           sourceLanguage: item.lang,
           targetLanguage,
-        })
-      )
+        }),
+      ),
     );
     translated.push(...results);
   }

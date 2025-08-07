@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -6,8 +6,8 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export function FlippableCard({
   title,
@@ -30,7 +30,7 @@ export function FlippableCard({
         className={`
           relative w-full h-full transition-transform duration-500
           [transform-style:preserve-3d]
-          ${flipped ? "[transform:rotateY(180deg)]" : ""}
+          ${flipped ? '[transform:rotateY(180deg)]' : ''}
         `}
       >
         {/* Front face */}
