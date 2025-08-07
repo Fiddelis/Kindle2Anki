@@ -1,7 +1,6 @@
 'use client';
 
 import { FlippableCard } from './flippable-cards';
-import { Card, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { RadioGroupSettings } from './radio-group-settings';
 import { Button } from '@/components/ui/button';

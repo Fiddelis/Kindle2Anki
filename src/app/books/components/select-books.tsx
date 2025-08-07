@@ -9,7 +9,6 @@ import { columnsBooks } from './columns-books';
 import { columnsLookupWithWord } from './columns-words';
 import { DataTableWords } from './data-table-words';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 import { translate } from '@/lib/translate';
 
 export default function SelectBooks() {
