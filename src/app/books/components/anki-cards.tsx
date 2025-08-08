@@ -31,7 +31,7 @@ const cardBasicWithSentenceTranslated = {
   title: 'Basic (With Sentence Translated)',
   front: (
     <>
-      Because of the sensitivities of the <b className="bg-green-800">subject matter</b>, many of
+      Because of the sensitivities of the <b className="bg-yellow-400">subject matter</b>, many of
       those interviewed for this book agreed to speak only on the condition that they not be
       identified.
     </>
@@ -48,13 +48,13 @@ const cardClozeDeletion = {
   title: 'Cloze Deletion',
   front: (
     <>
-      Lorem ipsum dolor sit amet <b className="bg-green-800">[...]</b> adipisicing elit. Ipsam,
+      Lorem ipsum dolor sit amet <b className="bg-yellow-400">[...]</b> adipisicing elit. Ipsam,
       amet? Cumque molestiae quam ipsa vitae exercitationem, quia.
     </>
   ),
   back: (
     <>
-      Lorem ipsum dolor sit amet <b className="bg-green-800">consectetur</b> adipisicing elit.
+      Lorem ipsum dolor sit amet <b className="bg-yellow-400">consectetur</b> adipisicing elit.
       Ipsam, amet? Cumque molestiae quam ipsa vitae exercitationem, quia.
     </>
   ),
@@ -86,7 +86,7 @@ export default function AnkiCards() {
 
       <div className="flex flex-col xl:flex-row items-center justify-between gap-10 py-10 w-full max-w-5xl mx-auto">
         <div className="flex flex-col gap-6 w-full max-w-sm">
-          <b className="text-gray-400 text-center xl:text-start">Card Type</b>
+          <b className="text-center xl:text-start">Card Type</b>
           <RadioGroupSettings
             options={cardType}
             setItem={setSelectedFormat}
@@ -99,12 +99,12 @@ export default function AnkiCards() {
           </Button>
         </div>
 
-        <div className="flex items-center justify-center w-full h-full ">
+        <div className="flex items-center justify-center w-full ">
           <FlippableCard
             title={cardData.title}
             front={cardData.front}
             back={cardData.back}
-            className="min-h-[300px] w-full max-w-md"
+            className="w-full max-w-md"
           />
         </div>
       </div>
