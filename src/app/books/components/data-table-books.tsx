@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -105,7 +106,7 @@ export function DataTableBooks<TData, TValue>({
           </Button>
         </div>
       </div>
-      <div className="rounded-md border">
+      <Card>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -145,7 +146,7 @@ export function DataTableBooks<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
+      </Card>
       <div className="flex">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{' '}

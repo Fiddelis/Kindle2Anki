@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { Card } from '@/components/ui/card';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -80,7 +81,7 @@ export function DataTableWords<TData, TValue>({
           </Button>
         </div>
       </div>
-      <div className="rounded-md border">
+      <Card>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -120,7 +121,7 @@ export function DataTableWords<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
+      </Card>
       <div className="flex">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredRowModel().rows.length} word(s) to translate.
