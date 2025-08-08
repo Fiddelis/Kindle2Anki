@@ -19,7 +19,7 @@ export function RadioGroupSettings({ setItem, options, className }: Props) {
       className={`${className}`}
     >
       {options.map((option, idx) => (
-        <>
+        <div key={option.value} className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <RadioGroupItem value={option.value} id={`r${idx}`} className="cursor-pointer" />
             <Label htmlFor={`r${idx}`} className="cursor-pointer">
@@ -27,7 +27,7 @@ export function RadioGroupSettings({ setItem, options, className }: Props) {
             </Label>
           </div>
           <Separator />
-        </>
+        </div>
       ))}
     </RadioGroup>
   );
