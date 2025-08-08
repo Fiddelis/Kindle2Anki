@@ -81,8 +81,8 @@ export default function AnkiCards() {
   }, [selectedFormat]);
 
   return (
-    <>
-      <h1 className="text-4xl text-center">Anki Cards</h1>
+    <div className="h-[400px]">
+      <h1 className="text-4xl text-center font-bold tracking-tight">Anki Cards</h1>
 
       <div className="flex flex-col xl:flex-row items-center justify-between gap-10 py-10 w-full max-w-5xl mx-auto">
         <div className="flex flex-col gap-6 w-full max-w-sm">
@@ -108,6 +108,6 @@ export default function AnkiCards() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

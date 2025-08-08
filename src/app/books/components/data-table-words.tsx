@@ -58,7 +58,7 @@ export function DataTableWords<TData, TValue>({
   });
 
   return (
-    <div className="pb-20">
+    <div className="pb-20 h-[600px]">
       <div className="flex justify-end">
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button
@@ -81,7 +81,7 @@ export function DataTableWords<TData, TValue>({
           </Button>
         </div>
       </div>
-      <Card>
+      <Card className="py-0">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -68,7 +68,7 @@ export default function SelectBooks() {
 
   return (
     <>
-      <h1 className="text-4xl text-center my-4">Select the books</h1>
+      <h1 className="text-4xl text-center my-4 font-bold tracking-tight">Select the books</h1>
 
       <div>
         <DataTableBooks
@@ -80,7 +80,9 @@ export default function SelectBooks() {
 
       <Separator className="my-10" />
 
-      <h2 className="text-4xl text-center my-4">Words in selected books</h2>
+      <h2 className="text-4xl text-center my-4 font-bold tracking-tight">
+        Words in selected books
+      </h2>
       <div>
         <DataTableWords
           columns={columnsLookupWithWord}

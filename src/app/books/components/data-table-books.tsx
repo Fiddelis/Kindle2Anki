@@ -68,7 +68,7 @@ export function DataTableBooks<TData, TValue>({
   }
 
   return (
-    <div>
+    <div className="h-[600px]">
       <div className="flex justify-between">
         <div className="flex items-center py-4 gap-4">
           <Input
@@ -106,7 +106,7 @@ export function DataTableBooks<TData, TValue>({
           </Button>
         </div>
       </div>
-      <Card>
+      <Card className="py-0">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
