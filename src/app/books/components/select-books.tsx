@@ -11,12 +11,16 @@ import { DataTableWords } from './data-table-words';
 import { Separator } from '@/components/ui/separator';
 import { translate } from '@/lib/translate';
 
-export default function SelectBooks() {
-  const params = useSearchParams();
-  const blobUrl = params.get('fileUrl')!;
+type Props = {
+  blobUrl: string;
+  lookups: LookupWithWord[];
+  onLookupsChange: (rows: LookupWithWord[]) => void;
+  onReplaceLookups: (rows: LookupWithWord[]) => void;
+};
 
+export default function SelectBooks(props: Props) {
+  const { blobUrl } = props;
   const [books, setBooks] = useState<KindleBookInfo[] | null>(null);
-  const [lookupsWithWords, setLookupsWithWords] = useState<LookupWithWord[] | null>(null);
 
   // Search for books
   useEffect(() => {
@@ -45,25 +49,21 @@ export default function SelectBooks() {
         'LOOKUPS AS l JOIN WORDS AS w ON l.word_key = w.id',
         { book_id: ids },
       );
-      setLookupsWithWords(rows);
+      props.onLookupsChange(rows);
     });
   }
 
-  function handleTranslate() {
-    if (!lookupsWithWords || lookupsWithWords.length === 0) return;
-
-    translate(lookupsWithWords, 'pt').then(
-      (translated: SetStateAction<LookupWithWord[] | null>) => {
-        setLookupsWithWords(translated);
-      },
-    );
+  async function handleTranslate() {
+    if (!props.lookups?.length) return;
+    const translated = await translate(props.lookups, 'pt');
+    props.onReplaceLookups(translated);
   }
 
   if (books === null) {
-    return <p>Carregando livros…</p>;
+    return <p>Loading books…</p>;
   }
   if (books.length === 0) {
-    return <p>Nenhum livro encontrado neste arquivo.</p>;
+    return <p>No books found in this db file.</p>;
   }
 
   return (
@@ -86,7 +86,7 @@ export default function SelectBooks() {
       <div>
         <DataTableWords
           columns={columnsLookupWithWord}
-          data={lookupsWithWords ?? []}
+          data={props.lookups}
           onTranslateChange={handleTranslate}
         />
       </div>
