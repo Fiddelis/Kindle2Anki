@@ -30,7 +30,7 @@ export function FlippableCard({
     <div className={`relative w-full max-w-md ${className} [perspective:1000px]`}>
       <div
         className={`
-          relative w-full h-full min-h-[200px]
+          relative w-full h-full min-h-[300px]
           transition-transform duration-500
           [transform-style:preserve-3d]
           ${flipped ? '[transform:rotateY(180deg)]' : ''}

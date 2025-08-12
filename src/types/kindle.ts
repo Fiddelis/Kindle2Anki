@@ -23,3 +23,8 @@ export interface LookupWithWord {
   word_translated: string | null;
   usage_translated: string | null;
 }
+
+export interface AnkiCard {
+  front: string;
+  back: string;
+}
