@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { RadioGroupSettings } from './radio-group-settings';
 import { Button } from '@/components/ui/button';
 import { FileDownIcon } from 'lucide-react';
-import { AnkiCard, LookupWithWord } from '@/types/kindle';
 
 const cardBasicOnlyWords = {
   title: 'Basic (Only Words)',

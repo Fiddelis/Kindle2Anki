@@ -2,8 +2,7 @@
 
 import { openDbFromBlob, searchTableClient } from '@/lib/kindle';
 import { KindleBookInfo, LookupWithWord } from '@/types/kindle';
-import { useSearchParams } from 'next/navigation';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataTableBooks } from './data-table-books';
 import { columnsBooks } from './columns-books';
 import { columnsLookupWithWord } from './columns-words';

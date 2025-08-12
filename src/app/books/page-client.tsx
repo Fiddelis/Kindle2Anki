@@ -2,11 +2,9 @@
 
 import { AnkiCard, LookupWithWord } from '@/types/kindle';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SelectBooks from './components/select-books';
 import ExampleCards from './components/anki-cards';
-
-const MASK = '<b class="bg-yellow-400">[...]</b>';
 
 function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -80,7 +78,7 @@ export default function PageClient() {
   const [lookups, setLookups] = useState<LookupWithWord[]>([]);
   const [selectedFormat, setSelectedFormat] = useState('basicOnlyWords');
   const [cards, setCards] = useState<AnkiCard[]>([]);
-  const [deckName, setDeckName] = useState<string>('k2a');
+  const [deckName /*setDeckName*/] = useState<string>('k2a');
   const cardTypesExample = [
     {
       label: 'Basic (Only Words)',
