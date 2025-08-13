@@ -76,7 +76,7 @@ export default function PageClient() {
   const params = useSearchParams();
   const blobUrl = params.get('fileUrl')!;
   const [lookups, setLookups] = useState<LookupWithWord[]>([]);
-  const [selectedFormat, setSelectedFormat] = useState();
+  const [selectedFormat, setSelectedFormat] = useState('');
   const [cards, setCards] = useState<AnkiCard[]>();
   const [deckName /*setDeckName*/] = useState<string>('k2a');
   const cardTypesExample = [

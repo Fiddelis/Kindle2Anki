@@ -1,25 +1,23 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://jestjs.io/docs/configuration
- */
-
 import type { Config } from 'jest';
 import nextJest from 'next/jest.js';
 import { pathsToModuleNameMapper } from 'ts-jest';
-import { compilerOptions } from './tsconfig.json';
+import fs from 'node:fs';
+import path from 'node:path';
 
-const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: './',
-});
+const tsconfigPath = path.resolve(__dirname, 'tsconfig.json');
+const tsconfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+const compilerOptions = tsconfig.compilerOptions ?? {};
+
+const createJestConfig = nextJest({ dir: './' });
 
 const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-    prefix: '<rootDir>/',
-  }),
-  // Add more setup options before each test is run
+  moduleNameMapper: compilerOptions.paths
+    ? pathsToModuleNameMapper(compilerOptions.paths, {
+        prefix: '<rootDir>/',
+      })
+    : {},
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
 
