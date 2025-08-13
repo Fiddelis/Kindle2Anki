@@ -76,8 +76,8 @@ export default function PageClient() {
   const params = useSearchParams();
   const blobUrl = params.get('fileUrl')!;
   const [lookups, setLookups] = useState<LookupWithWord[]>([]);
-  const [selectedFormat, setSelectedFormat] = useState('basicOnlyWords');
-  const [cards, setCards] = useState<AnkiCard[]>([]);
+  const [selectedFormat, setSelectedFormat] = useState();
+  const [cards, setCards] = useState<AnkiCard[]>();
   const [deckName /*setDeckName*/] = useState<string>('k2a');
   const cardTypesExample = [
     {
@@ -99,20 +99,21 @@ export default function PageClient() {
     switch (selectedFormat) {
       case 'basicOnlyWords':
         setCards(generateBasicOnlyWordsCards(lookups));
-        setDownloadRequested(true);
         break;
       case 'basicWithSentenceTranslated':
         setCards(generateBasicWithSentenceTranslatedCards(lookups));
-        setDownloadRequested(true);
         break;
       case 'clozeDeletion':
         setCards(generateClozeDeletionCards(lookups));
-        setDownloadRequested(true);
         break;
       default:
         break;
     }
   }, [selectedFormat]);
+
+  useEffect(() => {
+    setCards(generateBasicOnlyWordsCards(lookups));
+  }, [lookups]);
 
   useEffect(() => {
     if (!downloadRequested || !deckName || !cards?.length) return;
@@ -166,7 +167,10 @@ export default function PageClient() {
           cardTypes={cardTypesExample}
           selectedFormat={selectedFormat}
           onSelectedFormatChange={setSelectedFormat}
-          onGenerateCards={onGenerateCards}
+          onGenerateCards={() => {
+            onGenerateCards();
+            setDownloadRequested(true);
+          }}
         />
       </section>
     </div>
