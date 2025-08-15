@@ -4,19 +4,15 @@ import { openDbFromBlob, searchTableClient } from '@/lib/kindle';
 import { KindleBookInfo, LookupWithWord } from '@/types/kindle';
 import { useEffect, useState } from 'react';
 import { DataTableBooks } from './data-table-books';
-import { columnsBooks } from './columns-books';
-import { columnsLookupWithWord } from './columns-words';
 import { DataTableWords } from './data-table-words';
 import { Separator } from '@/components/ui/separator';
-import { translate } from '@/lib/translate';
+import TranslateSentences from './translate-sentences';
 
 type Props = {
   blobUrl: string;
   lookups: LookupWithWord[];
   onLookupsChange: (rows: LookupWithWord[]) => void;
-  onReplaceLookups: (rows: LookupWithWord[]) => void;
 };
-
 export default function SelectBooks(props: Props) {
   const { blobUrl } = props;
   const [books, setBooks] = useState<KindleBookInfo[] | null>(null);
@@ -52,12 +48,6 @@ export default function SelectBooks(props: Props) {
     });
   }
 
-  async function handleTranslate() {
-    if (!props.lookups?.length) return;
-    const translated = await translate(props.lookups, 'pt');
-    props.onReplaceLookups(translated);
-  }
-
   if (books === null) {
     return <p>Loading books…</p>;
   }
@@ -70,11 +60,7 @@ export default function SelectBooks(props: Props) {
       <h1 className="text-4xl text-center my-4 font-bold tracking-tight">Select the books</h1>
 
       <div>
-        <DataTableBooks
-          columns={columnsBooks}
-          data={books}
-          onSelectionChange={handleSelectionChange}
-        />
+        <DataTableBooks data={books} onSelectionChange={handleSelectionChange} />
       </div>
 
       <Separator className="my-10" />
@@ -83,11 +69,10 @@ export default function SelectBooks(props: Props) {
         Words in selected books
       </h2>
       <div>
-        <DataTableWords
-          columns={columnsLookupWithWord}
-          data={props.lookups}
-          onTranslateChange={handleTranslate}
-        />
+        <DataTableWords data={props.lookups} />
+      </div>
+      <div className="pt-4">
+        <TranslateSentences lookups={props.lookups} onLookupsChange={props.onLookupsChange} />
       </div>
     </>
   );
