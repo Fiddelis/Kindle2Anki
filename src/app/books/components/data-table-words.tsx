@@ -23,18 +23,116 @@ import {
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
+import { LookupWithWord } from '@/types/kindle';
+import { ArrowUpDown } from 'lucide-react';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+const columns: ColumnDef<LookupWithWord, unknown>[] = [
+  {
+    accessorKey: 'stem',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Stem
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'word',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Word
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'usage',
+    size: 200,
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Usage
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const usage = row.getValue('usage') as string;
+      return (
+        <span title={usage} className="block truncate w-100">
+          {usage}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: 'word_lang',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Language
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'word_translated',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Word Translated
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'usage_translated',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Usage Translated
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+];
+
+interface Props<TData> {
   data: TData[];
-  onTranslateChange: () => void;
 }
 
-export function DataTableWords<TData, TValue>({
-  columns,
-  data,
-  onTranslateChange,
-}: DataTableProps<TData, TValue>) {
+export function DataTableWords({ data }: Props<LookupWithWord>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -58,7 +156,7 @@ export function DataTableWords<TData, TValue>({
   });
 
   return (
-    <div className="pb-20 h-[600px]">
+    <div className="">
       <div className="flex justify-end">
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button
@@ -125,11 +223,6 @@ export function DataTableWords<TData, TValue>({
       <div className="flex">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredRowModel().rows.length} word(s) to translate.
-        </div>
-        <div className="flex mt-4">
-          <Button onClick={onTranslateChange} className="cursor-pointer w-30">
-            Translate
-          </Button>
         </div>
       </div>
     </div>

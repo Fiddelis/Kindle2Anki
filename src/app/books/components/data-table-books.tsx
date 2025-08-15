@@ -20,23 +20,129 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
 import { Button } from '@/components/ui/button';
+import { KindleBookInfo } from '@/types/kindle';
+import { ArrowUpDown } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+const columns: ColumnDef<KindleBookInfo, unknown>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <div className="container flex items-center">
+        <Checkbox
+          className="cursor-pointer"
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="container flex items-center">
+        <Checkbox
+          className="cursor-pointer"
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
+    ),
+    enableResizing: false,
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'title',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const title = row.getValue('title') as string;
+      return (
+        <span title={title} className="block truncate w-100">
+          {title}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: 'authors',
+
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Authors
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="text-left">{row.original.authors}</div>,
+  },
+  {
+    accessorKey: 'lang',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Language
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const lang = row.getValue('lang') as string;
+      return <span className="block">{lang}</span>;
+    },
+  },
+  {
+    accessorKey: 'id',
+    header: ({ column }) => {
+      return (
+        <Button
+          className="container flex justify-between"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="text-left">{row.original.id}</div>,
+  },
+];
+
+interface Props<TData> {
   data: TData[];
   onSelectionChange?: (selectedRows: string[]) => void;
 }
 
-export function DataTableBooks<TData, TValue>({
-  columns,
-  data,
-  onSelectionChange,
-}: DataTableProps<TData, TValue>) {
+export function DataTableBooks({ data, onSelectionChange }: Props<KindleBookInfo>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -68,7 +174,7 @@ export function DataTableBooks<TData, TValue>({
   }
 
   return (
-    <div className="h-[600px]">
+    <div className="h-[550px]">
       <div className="flex justify-between">
         <div className="flex items-center py-4 gap-4">
           <Input
