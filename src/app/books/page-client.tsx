@@ -76,7 +76,7 @@ export default function PageClient() {
   const params = useSearchParams();
   const blobUrl = params.get('fileUrl')!;
   const [lookups, setLookups] = useState<LookupWithWord[]>([]);
-  const [selectedFormat, setSelectedFormat] = useState('');
+  const [selectedFormat, setSelectedFormat] = useState('basicOnlyWords');
   const [cards, setCards] = useState<AnkiCard[]>();
   const [deckName /*setDeckName*/] = useState<string>('k2a');
   const cardTypesExample = [
@@ -109,11 +109,7 @@ export default function PageClient() {
       default:
         break;
     }
-  }, [selectedFormat]);
-
-  useEffect(() => {
-    setCards(generateBasicOnlyWordsCards(lookups));
-  }, [lookups]);
+  }, [lookups, selectedFormat]);
 
   useEffect(() => {
     if (!downloadRequested || !deckName || !cards?.length) return;
@@ -152,14 +148,7 @@ export default function PageClient() {
   return (
     <div className="container mx-auto px-10">
       <section>
-        <SelectBooks
-          blobUrl={blobUrl}
-          lookups={lookups}
-          onLookupsChange={setLookups}
-          onReplaceLookups={(rows) => {
-            setLookups(rows);
-          }}
-        />
+        <SelectBooks blobUrl={blobUrl} lookups={lookups} onLookupsChange={setLookups} />
       </section>
 
       <section>
