@@ -7,6 +7,7 @@ import { DataTableBooks } from './data-table-books';
 import { DataTableWords } from './data-table-words';
 import { Separator } from '@/components/ui/separator';
 import TranslateSentences from './translate-sentences';
+import { SkeletonBooks } from './skeleton-books';
 
 type Props = {
   blobUrl: string;
@@ -49,7 +50,7 @@ export default function SelectBooks(props: Props) {
   }
 
   if (books === null) {
-    return <p>Loading books…</p>;
+    return <SkeletonBooks />;
   }
   if (books.length === 0) {
     return <p>No books found in this db file.</p>;
