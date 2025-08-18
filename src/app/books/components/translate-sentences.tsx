@@ -19,6 +19,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { LookupWithWord } from '@/types/kindle';
+import { Progress } from '@/components/ui/progress';
 
 const languages = [
   { label: 'Abkhaz', value: 'ab' },
@@ -219,22 +220,38 @@ const languages = [
 
 async function handleTranslate(
   lookups: LookupWithWord[],
+  setProgress: (progress: number) => void,
   toLanguage: string,
   onLookupsChange: (lookups: LookupWithWord[]) => void,
 ) {
   if (!lookups.length) return;
-  const res = await fetch('/api/translate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ lookups, toLanguage }),
-  });
 
-  if (!res.ok) {
-    console.error('Translation failed');
-    return;
+  setProgress(0);
+
+  const chunksTranslate: LookupWithWord[][] = [];
+  const translatedLookups: LookupWithWord[] = [];
+  for (let i = 0; i < lookups.length; i += 20) {
+    chunksTranslate.push(lookups.slice(i, i + 20));
   }
 
-  const translatedLookups = (await res.json()) as LookupWithWord[];
+  let numTranslated = 0;
+  for (const chunk of chunksTranslate) {
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lookups: chunk, toLanguage }),
+    });
+
+    if (!res.ok) {
+      console.error('Translation failed');
+      return;
+    }
+
+    numTranslated += chunk.length;
+    setProgress((numTranslated / lookups.length) * 100);
+
+    translatedLookups.push(...((await res.json()) as LookupWithWord[]));
+  }
   onLookupsChange(translatedLookups);
 }
 
@@ -249,17 +266,18 @@ interface Props {
 
 export default function TranslateSentences({ lookups, onLookupsChange }: Props) {
   const [open, setOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    handleTranslate(lookups, data.language, onLookupsChange);
+    handleTranslate(lookups, setProgress, data.language, onLookupsChange);
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center gap-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-4">
           <Button className="cursor-pointer w-30" type="submit">
@@ -324,6 +342,10 @@ export default function TranslateSentences({ lookups, onLookupsChange }: Props) 
           />
         </form>
       </Form>
-    </>
+      <div className="flex flex-col items-center mt-4 mb-10">
+        <Progress value={progress} className="w-96" />
+        <p>{progress}%</p>
+      </div>
+    </div>
   );
 }
