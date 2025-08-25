@@ -1,7 +1,7 @@
 'use client';
 
 import { AnkiCard, LookupWithWord } from '@/types/kindle';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import SelectBooks from './components/select-books';
 import ExampleCards from './components/anki-cards';
@@ -12,11 +12,8 @@ function escapeRegExp(s: string) {
 
 function replaceWordExactUnicode(text: string, word: string, mask: string) {
   const escaped = escapeRegExp(word.trim());
-  const flags = 'giu'; // global + ignore case + unicode
-  const re = new RegExp(
-    `(?<![\\p{L}\\p{M}\\p{N}])${escaped}(?![\\p{L}\\p{M}\\p{N}])`,
-    flags as 'giu',
-  );
+  const flags = 'giu';
+  const re = new RegExp(`(?<![\\p{L}\\p{M}\\p{N}])${escaped}(?![\\p{L}\\p{M}\\p{N}])`, flags);
   return text.replace(re, mask);
 }
 
@@ -74,11 +71,14 @@ function generateClozeDeletionCards(
 
 export default function PageClient() {
   const params = useSearchParams();
+  const router = useRouter();
+  type Format = 'basicOnlyWords' | 'basicWithSentenceTranslated' | 'clozeDeletion';
+  const [selectedFormat, setSelectedFormat] = useState<Format>('basicOnlyWords');
+  const [isValidBlob, setIsValidBlob] = useState<boolean>(true);
   const blobUrl = params.get('fileUrl')!;
   const [lookups, setLookups] = useState<LookupWithWord[]>([]);
-  const [selectedFormat, setSelectedFormat] = useState('basicOnlyWords');
   const [cards, setCards] = useState<AnkiCard[]>();
-  const [deckName /*setDeckName*/] = useState<string>('k2a');
+  const [deckName, setDeckName] = useState<string>('k2a');
   const cardTypesExample = [
     {
       label: 'Basic (Only Words)',
@@ -133,6 +133,9 @@ export default function PageClient() {
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch (e) {
+        console.error(e);
+        alert('Error generating APKG');
       } finally {
         setDownloadRequested(false);
       }
@@ -142,8 +145,42 @@ export default function PageClient() {
   }, [downloadRequested, deckName, cards]);
 
   useEffect(() => {
-    console.log(selectedFormat);
-  }, [selectedFormat]);
+    if (!blobUrl) {
+      router.replace('/');
+    }
+  }, [blobUrl, router]);
+
+  useEffect(() => {
+    if (!blobUrl) return;
+
+    const controller = new AbortController();
+
+    (async () => {
+      try {
+        const res = await fetch(blobUrl, {
+          method: 'HEAD',
+          signal: controller.signal,
+        }).catch(() =>
+          fetch(blobUrl, {
+            method: 'GET',
+            headers: { Range: 'bytes=0-0' },
+            signal: controller.signal,
+          }),
+        );
+
+        if (!res || (res instanceof Response && !res.ok)) {
+          throw new Error('Invalid blob URL');
+        }
+
+        setIsValidBlob(true);
+      } catch {
+        setIsValidBlob(false);
+        router.replace('/');
+      }
+    })();
+  }, [blobUrl, router]);
+
+  if (!blobUrl || !isValidBlob) return null;
 
   return (
     <div className="container mx-auto px-10">
@@ -155,11 +192,13 @@ export default function PageClient() {
         <ExampleCards
           cardTypes={cardTypesExample}
           selectedFormat={selectedFormat}
-          onSelectedFormatChange={setSelectedFormat}
+          onSelectedFormatChange={(format) => setSelectedFormat(format as Format)}
           onGenerateCards={() => {
             onGenerateCards();
             setDownloadRequested(true);
           }}
+          deckName={deckName}
+          onDeckNameChange={setDeckName}
         />
       </section>
     </div>

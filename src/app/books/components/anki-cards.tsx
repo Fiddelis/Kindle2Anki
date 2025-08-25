@@ -5,6 +5,16 @@ import { useEffect, useState } from 'react';
 import { RadioGroupSettings } from './radio-group-settings';
 import { Button } from '@/components/ui/button';
 import { FileDownIcon } from 'lucide-react';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
 
 const cardBasicOnlyWords = {
   title: 'Basic (Only Words)',
@@ -51,14 +61,20 @@ type Props = {
   selectedFormat: string;
   onSelectedFormatChange: (format: string) => void;
   onGenerateCards: () => void;
-  cardTypes: {
-    label: string;
-    value: string;
-  }[];
+  deckName: string;
+  onDeckNameChange: (v: string) => void;
+  cardTypes: { label: string; value: string }[];
 };
 
 export default function ExampleCards(props: Props) {
   const [cardType, setCardType] = useState(cardBasicOnlyWords);
+  const form = useForm<{ deck: string }>({
+    defaultValues: { deck: props.deckName },
+  });
+
+  useEffect(() => {
+    form.setValue('deck', props.deckName);
+  }, [props.deckName, form]);
 
   useEffect(() => {
     switch (props.selectedFormat) {
@@ -76,28 +92,51 @@ export default function ExampleCards(props: Props) {
     }
   }, [props.selectedFormat]);
 
+  function onSubmit(data: { deck: string }) {
+    props.onDeckNameChange(data.deck?.trim() || 'k2a');
+    props.onGenerateCards();
+  }
+
   return (
     <div className="h-[400px]">
       <h1 className="text-4xl text-center font-bold tracking-tight">Anki Cards</h1>
 
       <div className="flex flex-col xl:flex-row items-center justify-between gap-10 py-10 w-full max-w-5xl mx-auto">
         <div className="flex flex-col gap-6 w-full max-w-sm">
-          <b className="text-center xl:text-start">Card Type</b>
-          <RadioGroupSettings
-            options={props.cardTypes}
-            setItem={props.onSelectedFormatChange}
-            className="gap-2 w-full"
-          />
-
-          <Button
-            className="flex gap-2 cursor-pointer"
-            onClick={() => {
-              props.onGenerateCards();
-            }}
-          >
-            <FileDownIcon />
-            Generate Cards
-          </Button>
+          <div className="text-center xl:text-start">
+            <Form {...form}>
+              <div className="flex flex-col gap-4">
+                <b className="text-center xl:text-start">Card Type</b>
+                <RadioGroupSettings
+                  options={props.cardTypes}
+                  setItem={props.onSelectedFormatChange}
+                  className="gap-2 w-full"
+                />
+              </div>
+              <div>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  <b>Deck name</b>
+                  <FormField
+                    control={form.control}
+                    name="deck"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="k2a" {...field} />
+                        </FormControl>
+                        <FormDescription>This is the name of your Anki deck.</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button className="flex gap-2 cursor-pointer" type="submit">
+                    <FileDownIcon />
+                    Generate Cards
+                  </Button>
+                </form>
+              </div>
+            </Form>
+          </div>
         </div>
 
         <div className="flex items-center justify-center w-full ">
