@@ -244,11 +244,12 @@ async function handleTranslate(
 
     if (!res.ok) {
       console.error('Translation failed');
+      alert('Error translating text');
       return;
     }
 
     numTranslated += chunk.length;
-    setProgress((numTranslated / lookups.length) * 100);
+    setProgress(Math.floor((numTranslated / lookups.length) * 100));
 
     translatedLookups.push(...((await res.json()) as LookupWithWord[]));
   }
