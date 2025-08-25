@@ -190,11 +190,7 @@ export default function UploadPage() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-2xl mt-4 flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">
-            The file is processed locally in your browser. The only data sent to the server are the
-            words and sentences necessary for translation.
-          </p>
+        <div className="mx-auto max-w-2xl mt-4 flex items-center justify-center">
           <Button className="cursor-pointer" disabled={!file} onClick={handleConfirm}>
             Confirm and continue
           </Button>
