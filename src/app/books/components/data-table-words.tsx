@@ -97,7 +97,7 @@ const columns: ColumnDef<LookupWithWord, unknown>[] = [
     },
   },
   {
-    accessorKey: 'word_translated',
+    accessorKey: 'wordTranslated',
     header: ({ column }) => {
       return (
         <Button
@@ -112,7 +112,7 @@ const columns: ColumnDef<LookupWithWord, unknown>[] = [
     },
   },
   {
-    accessorKey: 'usage_translated',
+    accessorKey: 'usageTranslated',
     header: ({ column }) => {
       return (
         <Button
