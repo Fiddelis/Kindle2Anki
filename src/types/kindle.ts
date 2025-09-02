@@ -20,8 +20,8 @@ export interface LookupWithWord {
   word_timestamp: Date;
 
   // Optional fields for translation
-  word_translated: string | null;
-  usage_translated: string | null;
+  wordTranslated: string | null;
+  usageTranslated: string | null;
 }
 
 export interface AnkiCard {
