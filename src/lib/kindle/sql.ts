@@ -1,10 +1,11 @@
 'use client';
 
 import type { SqlJsStatic, Database as SqlJsDatabase } from 'sql.js';
+import type { Database } from 'sql.js';
 
 let SQL: SqlJsStatic | null = null;
 
-export async function getSqlJs(): Promise<SqlJsStatic> {
+async function getSqlJs(): Promise<SqlJsStatic> {
   if (!SQL) {
     const initSqlJs = (await import('sql.js')).default;
     SQL = await initSqlJs({
@@ -14,14 +15,21 @@ export async function getSqlJs(): Promise<SqlJsStatic> {
   return SQL;
 }
 
-export async function openDbFromBlob(blobUrl: string): Promise<SqlJsDatabase> {
-  const res = await fetch(blobUrl);
+export async function openDbFromBlob(
+  blobUrl: string,
+  deps: {
+    fetch?: typeof fetch;
+    getSqlJs?: () => Promise<{ Database: new (buf: Uint8Array) => SqlJsDatabase }>;
+  } = {},
+): Promise<SqlJsDatabase> {
+  const f = deps.fetch ?? globalThis.fetch;
+  const get = deps.getSqlJs ?? getSqlJs;
+
+  const res = await f(blobUrl);
   const buffer = await res.arrayBuffer();
-  const SQL = await getSqlJs();
+  const SQL = await get();
   return new SQL.Database(new Uint8Array(buffer));
 }
-
-import type { Database } from 'sql.js';
 
 export function searchTableClient<T>(
   db: Database,
