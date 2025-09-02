@@ -230,29 +230,55 @@ async function handleTranslate(
 
   const chunksTranslate: LookupWithWord[][] = [];
   const translatedLookups: LookupWithWord[] = [];
+
   for (let i = 0; i < lookups.length; i += 20) {
     chunksTranslate.push(lookups.slice(i, i + 20));
   }
 
   let numTranslated = 0;
+
   for (const chunk of chunksTranslate) {
+    const payload = {
+      translation: chunk.map((item) => ({
+        id: item.lookup_id,
+        word: item.word,
+        usage: item.usage,
+        sourceLanguage: item.word_lang,
+        targetLanguage: toLanguage,
+      })),
+    };
+
     const res = await fetch('/api/translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lookups: chunk, toLanguage }),
+      body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
-      console.error('Translation failed');
+      console.error('Translation failed', await res.text());
       alert('Error translating text');
       return;
     }
 
+    type TranslateResponseItem = { id: string | number; word?: string; usage?: string };
+    const translated = (await res.json()) as TranslateResponseItem[];
+
+    const byId = new Map<string, TranslateResponseItem>(translated.map((t) => [String(t.id), t]));
+
+    const mergedChunk: LookupWithWord[] = chunk.map((item) => {
+      const t = byId.get(String(item.lookup_id));
+      return {
+        ...item,
+        wordTranslated: t?.word !== undefined ? t.word! : (item.wordTranslated ?? null),
+        usageTranslated: t?.usage !== undefined ? t.usage! : (item.usageTranslated ?? null),
+      };
+    });
+
+    translatedLookups.push(...mergedChunk);
     numTranslated += chunk.length;
     setProgress(Math.floor((numTranslated / lookups.length) * 100));
-
-    translatedLookups.push(...((await res.json()) as LookupWithWord[]));
   }
+
   onLookupsChange(translatedLookups);
 }
 

@@ -18,55 +18,42 @@ function replaceWordExactUnicode(text: string, word: string, mask: string) {
 }
 
 function generateBasicOnlyWordsCards(
-  lookups: Array<Pick<LookupWithWord, 'word' | 'word_translated'>>,
+  lookups: Array<Pick<LookupWithWord, 'word' | 'wordTranslated'>>,
 ): AnkiCard[] {
   return lookups
-    .filter((l): l is { word: string; word_translated: string } => !!l.word && !!l.word_translated)
-    .map(
-      ({ word, word_translated }) =>
-        ({
-          front: word.trim(),
-          back: word_translated.trim(),
-        }) satisfies AnkiCard,
-    );
+    .filter((l): l is { word: string; wordTranslated: string } => !!l.word && !!l.wordTranslated)
+    .map(({ word, wordTranslated }) => ({ front: word.trim(), back: wordTranslated.trim() }));
 }
 
 function generateBasicWithSentenceTranslatedCards(
-  lookups: Array<Pick<LookupWithWord, 'word' | 'word_translated' | 'usage' | 'usage_translated'>>,
+  lookups: Array<Pick<LookupWithWord, 'word' | 'wordTranslated' | 'usage' | 'usageTranslated'>>,
 ): AnkiCard[] {
   return lookups
     .filter(
       (
         l,
-      ): l is { word: string; word_translated: string; usage: string; usage_translated: string } =>
-        !!l.word && !!l.word_translated && !!l.usage && !!l.usage_translated,
+      ): l is {
+        word: string;
+        wordTranslated: string;
+        usage: string;
+        usageTranslated: string;
+      } => !!l.word && !!l.wordTranslated && !!l.usage && !!l.usageTranslated,
     )
-    .map(
-      ({ word, word_translated, usage, usage_translated }) =>
-        ({
-          front: `${replaceWordExactUnicode(usage.trim(), word, `<mark>${word}</mark>`)}`,
-          back: `Literal translation: <mark>${word_translated.trim()}</mark><br><br>${usage_translated.trim()}`,
-        }) satisfies AnkiCard,
-    );
+    .map(({ word, wordTranslated, usage, usageTranslated }) => ({
+      front: replaceWordExactUnicode(usage.trim(), word, `<mark>${word}</mark>`),
+      back: `Literal translation: <mark>${wordTranslated.trim()}</mark><br><br>${usageTranslated.trim()}`,
+    }));
 }
 
 function generateClozeDeletionCards(
-  lookups: Array<Pick<LookupWithWord, 'word' | 'word_translated' | 'usage' | 'usage_translated'>>,
+  lookups: Array<Pick<LookupWithWord, 'word' | 'usage'>>,
 ): AnkiCard[] {
   return lookups
-    .filter(
-      (
-        l,
-      ): l is { word: string; word_translated: string; usage: string; usage_translated: string } =>
-        !!l.word && !!l.word_translated && !!l.usage && !!l.usage_translated,
-    )
-    .map(
-      ({ word, usage }) =>
-        ({
-          front: replaceWordExactUnicode(usage.trim(), word, '<mark>[...]</mark>'),
-          back: replaceWordExactUnicode(usage.trim(), word, `<mark>${word}</mark>`),
-        }) satisfies AnkiCard,
-    );
+    .filter((l): l is { word: string; usage: string } => !!l.word && !!l.usage)
+    .map(({ word, usage }) => ({
+      front: replaceWordExactUnicode(usage.trim(), word, '<mark>[...]</mark>'),
+      back: replaceWordExactUnicode(usage.trim(), word, `<mark>${word}</mark>`),
+    }));
 }
 
 export default function PageClient() {
@@ -106,14 +93,12 @@ export default function PageClient() {
       case 'clozeDeletion':
         setCards(generateClozeDeletionCards(lookups));
         break;
-      default:
-        break;
     }
   }, [lookups, selectedFormat]);
 
   useEffect(() => {
+    console.log('Download requested:', downloadRequested, deckName, cards);
     if (!downloadRequested || !deckName || !cards?.length) return;
-
     const controller = new AbortController();
     (async () => {
       try {
