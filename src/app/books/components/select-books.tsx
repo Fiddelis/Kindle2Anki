@@ -1,6 +1,6 @@
 'use client';
 
-import { openDbFromBlob, searchTableClient } from '@/lib/kindle';
+import { openDbFromBlob, searchTableClient } from '@/lib/kindle/sql';
 import { KindleBookInfo, LookupWithWord } from '@/types/kindle';
 import { useEffect, useState } from 'react';
 import { DataTableBooks } from './data-table-books';
