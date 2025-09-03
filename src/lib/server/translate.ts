@@ -32,7 +32,6 @@ function buildParams(text: string, source: string, target: string) {
 }
 
 export async function translateText(text: string, source: string, target: string): Promise<string> {
-  if (!text?.trim()) return '';
   const qs = buildParams(text, source, target);
   const res = await fetch(`${ENDPOINT}?${qs}`, baseFetchInit);
   if (!res.ok) {
