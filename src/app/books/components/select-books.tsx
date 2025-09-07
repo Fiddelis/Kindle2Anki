@@ -58,7 +58,7 @@ export default function SelectBooks(props: Props) {
 
   return (
     <>
-      <h1 className="text-4xl text-center my-4 font-bold tracking-tight">Select the books</h1>
+      <h1 className="text-4xl text-center my-4 font-bold tracking-tight">Select Books</h1>
 
       <div>
         <DataTableBooks data={books} onSelectionChange={handleSelectionChange} />
