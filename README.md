@@ -1,13 +1,11 @@
 # Kindle2Anki
 
-**Kindle2Anki** is a modern **web application** that helps you transform the vocabulary collected by your Kindle into **ready-to-study Anki flashcards** — all directly in your browser.
-Simply connect your Kindle, upload the `vocab.db` file, select the words you want to keep, optionally translate them, and export a deck compatible with Anki.
+[Kindle2Anki](https://kindle2anki.app) is a **web application** that helps you transform the vocabulary collected by your Kindle into **ready-to-study Anki flashcards**.
+Simply connect your Kindle, upload the `vocab.db` file, select the words you want to keep, translate them, and export a deck compatible with Anki.
 
 <p align="center">
-  <img width="1914" height="915" alt="Kindle2Anki preview" src="https://github.com/user-attachments/assets/8b5ba9a0-4c4b-442b-9c5e-0a907b12bdd2" />
+  <img width="1350" height="842" alt="image" src="https://github.com/user-attachments/assets/0e3ec060-feb6-44ff-84df-6027a55726ba" />
 </p>
-
----
 
 ## ✨ Features
 
@@ -16,7 +14,9 @@ Simply connect your Kindle, upload the `vocab.db` file, select the words you wan
 * 🌐 **Optional translation** – Automatically translate both the word and its original sentence for easier learning.
 * 🎴 **Anki-ready export** – Download a APKG that imports directly into Anki.
 
----
+<p>
+  <img width="1321" height="883" alt="image" src="https://github.com/user-attachments/assets/e1b4809a-8b78-476f-90b1-b6b87caa29f0" />
+</p>
 
 ## 🚀 How It Works
 
