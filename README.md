@@ -14,7 +14,7 @@ Simply connect your Kindle, upload the `vocab.db` file, select the words you wan
 * 📂 **Simple file upload** – Drag and drop or browse to select your `vocab.db` directly from your Kindle’s internal storage.
 * 🔍 **Smart filtering** – View your vocabulary grouped by book, filter entries, and select only what matters to you.
 * 🌐 **Optional translation** – Automatically translate both the word and its original sentence for easier learning.
-* 🎴 **Anki-ready export** – Download a clean, structured CSV that imports directly into Anki.
+* 🎴 **Anki-ready export** – Download a APKG that imports directly into Anki.
 
 ---
 
