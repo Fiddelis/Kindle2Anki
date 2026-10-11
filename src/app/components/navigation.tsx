@@ -6,10 +6,12 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import Link from 'next/link';
+import { FiddelisCredit } from './fiddelis-credit';
 
 export function Navigation() {
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full flex flex-col items-center px-4 pt-2 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:px-6">
+      <FiddelisCredit className="self-start pt-2 sm:self-center sm:justify-self-start sm:pt-0" />
       <NavigationMenu viewport={false} className="p-2 m-2 shadow-md rounded-lg w-full">
         <NavigationMenuList className="w-full flex justify-around">
           <NavigationMenuItem>

@@ -7,7 +7,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { Navigation } from './components/navigation';
 import { Footer } from './components/footer';
-import { FiddelisCredit } from './components/fiddelis-credit';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -40,7 +39,6 @@ export default function RootLayout({
           src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token":"d9fe1d308c7e400abab4d5e08099e851","spa":true}'
         />
-        <FiddelisCredit />
         <Navigation />
         {children}
         <Footer />
